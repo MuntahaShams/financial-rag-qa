@@ -1,207 +1,230 @@
-# **Streamlit Data Analytics and Management Application**
+# AI-Driven Stock Market Querying & Data Retrieval
 
-This Streamlit app is a comprehensive tool for data management, analysis, visualization, and AI-driven insights. It integrates with a database, supports file uploads, and provides user-friendly interfaces for multiple workflows such as chatbot interactions, data engineering, analysis, and workflow management.
+A Retrieval-Augmented Generation (RAG) system that enables users to query company earnings data using natural language.
 
----
+The application allows users to ask questions such as revenue, earnings growth, or company performance using conversational queries instead of manually searching through financial reports.
 
-## **Table of Contents**
-- [Overview](#overview)  
-- [Features](#features)  
-- [File Structure](#file-structure)  
-- [Environment Setup](#environment-setup)  
-- [Tabs and Functionalities](#tabs-and-functionalities)  
-  - [Chatbot](#1-chatbot)  
-  - [Data Engineering](#2-data-engineering)  
-  - [Data Analysis & Economic Data Analysis](#3-data-analysis--economic-data-analysis)  
-  - [Data Management](#4-data-management)  
-  - [Workflow](#5-workflow)  
-- [Daily Cron Jobs](#daily-cron-jobs)  
-- [How to Run](#how-to-run)  
-- [Requirements](#requirements)  
+It combines **vector search, structured filtering, and LLM reasoning** to generate grounded answers from financial data.
+
 
 ---
 
-## **Overview**
-This application provides a unified platform for:  
-1. Uploading, managing, and analyzing data.  
-2. Training AI models for predictive analysis.  
-3. Summarizing and scoring financial and sentiment data.  
-4. Seamless integration with a database for real-time updates and insights.  
-5. A user-friendly interface built using Streamlit.
+# Example Interface
 
----
+![Stock AI Demo](demo.png)
 
-## **Features**
-### **1. Chatbot**  
-- Interactive chatbot connected to a database and powered by LLMs.  
-- Side bar options to select chatbot models.  
-- Retrieves insights based on:
-  - Citation summaries  
-  - Document details  
-  - Financial metrics  
+The interface allows users to:
 
-### **2. Data Engineering**  
-- Upload CSV, XLSX, JSON, or XML files.  
-- Extracts columns from the uploaded file.  
-- Uses GPT to map columns between the uploaded file and database tables.  
-- Displays mapped results on the UI.  
+* Select company ticker
+* Choose earnings quarter
+* Ask financial questions
+* Retrieve grounded responses based on earnings reports
 
-### **3. Data Analysis & Economic Data Analysis**  
-- Sidebar options for:
-  - **Prediction Models**: List of available models for training and predictions.  
-  - **Features for Visualization**: Visualize features on the UI.  
-  - **Features for Analysis**: Normalize and prepare data for AI model training.  
-  - **Choose History Dates**: Train AI models based on 1-day, 7-day, or 30-day historical data.  
-- Tab options include:
-  - **Features Analysis**: Display data in a dataframe format.  
-  - **Data Exploration**: Pair plot visualization between selected features and predictors.  
-  - **AI Model**: Train AI models and display resulting graphs.  
-  - **Predicted vs Actual Results**: Bar graph comparison.  
-  - **Evaluation Metrics**: Model performance metrics.  
+Example query:
 
-### **4. Data Management**  
-- Sidebar options:  
-  - **Select Year(s)**: Automatically fetched and editable.  
-  - **Select Quarter(s)**: Automatically fetched and editable.  
-  - **Search Ticker**: Filter results by ticker.  
-  - **Search Security Name**: Filter results by name.  
-- Tab options:
-  - **Features Analysis**: Display data in a dataframe with row selection.  
-  - **Summary**: Display summary files based on selected rows (if file paths exist).  
-  - **Document Data**: Display associated document files (if file paths exist).  
+```
+what is the revenue?
+```
 
-### **5. Workflow**  
-- Sidebar options:  
-  - **List of Models** for:
-    - Summary generation.  
-    - Financial metrics.  
-    - Sentiment scoring.  
-  - **Input Type Selection**:
-    - None.  
-    - File upload.  
-    - Folder upload.  
-- Functionality:
-  - After uploading files/folders, click **Generate Summary** to:
-    - Update the database with summary, sentiment scores, and financial metrics.  
-    - Display results on the UI.  
-  - Use **Autogenerate** to update the database without changing the UI.  
+Example response:
 
----
-
-## **File Structure**
-```plaintext
-📂 project-directory  
-├── .env                     # Contains environment variables for database connection  
-├── config.toml              # Configuration settings (e.g., axMessageSize = 500MB)  
-├── func.py                  # Common functions used across scripts  
-├── QrTrDr.py                # Main app code (frontend with Streamlit)  
-├── chatbot.py               # Backend for Chatbot tab  
-├── data_analysis.py         # Backend for Data Analysis tab  
-├── data_engineering.py      # Backend for Data Engineering tab  
-├── data_management.py       # Backend for Data Management tab  
-├── Economic_data_analysis.py# Backend for Economic Data Analysis tab  
-├── work_flow.py             # Backend for Workflow tab  
-├── prediction_models.py     # AI models for analysis tabs  
-├── daily_process.py         # Cron job for summaries, financial metrics, and sentiment scoring  
-├── llm_daily_process.py     # Cron job for Llama/GPT sentiment scoring on existing summaries  
-├── llama-score.py           # Test script for Llama model  
-├── test_llama.py            # Test script for Llama performance  
-├── requirements.txt         # Python dependencies  
-├── guide.txt                # Instructions to run the app and cron jobs  
-└── process_files.log        # Log file for daily process activities  
+```
+The revenue reported in Nvidia's Q3 2024 earnings call was $18.1 billion.
 ```
 
 ---
 
-## **Environment Setup**
-1. Clone the repository:  
-   ```bash
-   git clone <repository-url>
-   cd <repository-folder>
-   ```
-2. Create and activate a virtual environment:  
-   ```bash
-   python3 -m venv env  
-   source env/bin/activate  # For Linux/Mac  
-   env\Scripts\activate     # For Windows  
-   ```
-3. Install dependencies:  
-   ```bash
-   pip install -r requirements.txt  
-   ```
+# System Architecture
 
-4. Configure the `.env` file for database connection and update `config.toml` if necessary.
+![Architecture](Gemini_Generated_Image_sbfb93sbfb93sbfb.png)
 
----
+The system follows a Retrieval-Augmented Generation pipeline:
 
-## **Tabs and Functionalities**
+1. **User Query**
 
-### **1. Chatbot**  
-- **Sidebar Options**:  
-  - List of chatbot models.  
-- **Main Features**:  
-  - Answers user queries using citation summaries, documents, and financial metrics retrieved from the database.  
+User submits a natural language financial question.
 
-### **2. Data Engineering**  
-- **Sidebar Options**:  
-  - Upload CSV, XLSX, JSON, or XML files.  
-- **Main Features**:  
-  - Automatically map columns between the uploaded file and database table using GPT.  
-  - Display mapped results for review.  
+2. **Frontend Interface**
 
-### **3. Data Analysis & Economic Data Analysis**  
-- **Sidebar Options**:  
-  - Select prediction models and features for analysis or visualization.  
-  - Choose history dates (1-day, 7-day, 30-day) for training.  
-- **Main Features**:  
-  - Data exploration with pair plots.  
-  - Train AI models and display predicted vs actual results and evaluation metrics.  
+Web application allows users to select:
 
-### **4. Data Management**  
-- **Sidebar Options**:  
-  - Select year(s), quarter(s), ticker, or security name to filter data.  
-- **Main Features**:  
-  - Display data in a dataframe with row selection.  
-  - View summaries and associated documents.  
+* company ticker
+* quarter
+* year
+* query
 
-### **5. Workflow**  
-- **Sidebar Options**:  
-  - Choose models and input type (None, File, Folder).  
-- **Main Features**:  
-  - Upload files or folders to generate summaries, sentiment scores, and financial metrics.  
-  - Update the database with results and display them on the UI.  
+3. **FastAPI Backend**
+
+The backend processes the request and coordinates retrieval and generation.
+
+4. **Metadata Filtering**
+
+The system filters financial data using:
+
+* company ticker
+* quarter
+* year
+
+5. **Context Retrieval**
+
+Relevant financial content is retrieved using vector search from the financial dataset.
+
+6. **Prompt Augmentation**
+
+Retrieved context is combined with the user query.
+
+7. **LLM Response Generation**
+
+The language model generates an answer grounded in the retrieved financial context.
+
+8. **Response Returned**
+
+The final answer is returned to the user interface.
 
 ---
 
-## **Daily Cron Jobs**
-- **`daily_process.py`**:  
-  - Generates summaries, financial metrics, and sentiment scores.  
-  - Outputs logs to `process_files.log`.  
-- **`llm_daily_process.py`**:  
-  - Uses Llama/GPT models to calculate sentiment scores for existing summaries.  
+# Why This Project Matters
+
+Financial reports and earnings transcripts contain valuable insights but are often long and difficult to navigate.
+
+This project demonstrates how modern AI systems can transform financial data into a conversational interface that allows users to explore earnings information quickly and efficiently.
+
+It showcases an applied AI workflow combining:
+
+* backend engineering
+* retrieval systems
+* natural language interfaces
+* LLM reasoning
 
 ---
 
-## **How to Run**
-1. Run the Streamlit app:  
-   ```bash
-   streamlit run QrTrDr.py
-   ```
-2. For Cron Jobs:  
-   - Add entries in the system's crontab using commands in `guide.txt`.  
+# Key Features
+
+Natural language querying of financial data
+Retrieval-Augmented Generation architecture
+Quarter and company filtering
+Vector search for contextual retrieval
+Grounded responses from financial reports
+FastAPI backend API
+Interactive web interface
 
 ---
 
-## **Requirements**
-Refer to the `requirements.txt` file for Python dependencies. Install them using:  
-```bash
+# Example Queries
+
+Users can ask questions such as:
+
+```
+What is the revenue for this quarter?
+What is the profit growth?
+What drove Nvidia's revenue growth?
+What is the gaming revenue?
+What is the earnings outlook?
+```
+
+---
+
+# Tech Stack
+
+Python
+FastAPI
+Vector Search / RAG Pipeline
+Large Language Models (LLMs)
+HTML / JavaScript frontend
+Financial data processing
+
+---
+
+# Project Structure
+
+```
+AI-Driven-Stock-Market-Querying/
+│
+├── app.py
+├── retriever.py
+├── llm_service.py
+├── database.py
+├── requirements.txt
+│
+├── static/
+│   └── index.html
+│
+├── data/
+│   ├── earnings_transcripts
+│   └── processed_financial_data
+│
+├── demo.png
+├── architecture.png
+└── medical_rag.mp4
+```
+
+---
+
+# Installation
+
+Clone the repository
+
+```
+git clone https://github.com/MuntahaShams/AI-Driven-Stock-Market-Querying.git
+cd AI-Driven-Stock-Market-Querying
+```
+
+Install dependencies
+
+```
 pip install -r requirements.txt
 ```
 
 ---
 
+# Running the Application
 
+Start the FastAPI server
 
-readme with functions
-data management code easy
-UI good
+```
+uvicorn app:app --reload
+```
+
+Open the application in your browser
+
+```
+http://localhost:8000
+```
+
+---
+
+# Challenges
+
+Financial documents present several challenges:
+
+* long earnings transcripts
+* noisy textual data
+* multiple financial metrics
+* different formats across companies
+
+This project addresses these challenges using retrieval-based context selection combined with LLM reasoning.
+
+---
+
+# Future Improvements
+
+Add real-time financial APIs
+Add financial chart visualization
+Support multiple company comparison
+Improve context ranking and retrieval
+Add evaluation metrics for RAG performance
+
+---
+
+# Author
+
+Muntaha Shams
+AI Engineer — LLMs | NLP | Computer Vision | Document AI
+
+GitHub
+[https://github.com/MuntahaShams](https://github.com/MuntahaShams)
+
+Portfolio
+[https://muntahashams.github.io/portfolio/projects](https://muntahashams.github.io/portfolio/projects)
+
+---
