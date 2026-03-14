@@ -155,7 +155,7 @@ AI-Driven-Stock-Market-Querying/
 │
 ├── demo.png
 ├── architecture.png
-└── medical_rag.mp4
+
 ```
 
 ---
