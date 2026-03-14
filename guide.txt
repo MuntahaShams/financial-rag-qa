@@ -1,0 +1,30 @@
+Create env:
+conda crate -n data python==3.11
+
+Activate env:
+conda activate data
+
+Install requirements:
+pip install -r requirements.txt 
+(or) 
+conda install --file requirements.txt
+
+To run application:
+streamlit run QrTrDr.py 
+
+To run the script with specific flags (e.g., only summary and sentiment score):
+30 2 * * * /usr/bin/python3 /home/username/cron_jobs/process_files.py --summary True --financial False --sentiment True >> /home/username/cron_jobs/logs/process_files.log 2>&1
+
+Check Cron Job Logs
+tail -f /home/username/cron_jobs/logs/process_files.log
+ 
+Steps to Create the Cron Job:
+
+1. Make the Shell Script Executable:
+chmod +x /path/to/your/run_process.sh
+
+2. Edit Cron Jobs: Open the cron jobs file:
+crontab -e
+
+3. Add the Cron Job: Add the line to schedule the script.
+0 0 * * * /path/to/your/run_process.sh

@@ -1,0 +1,14 @@
+scikit-learn==1.2.2
+openai==1.23.6
+matplotlib                   
+pandas
+seaborn 
+streamlit
+psycopg2-binary
+python-dotenv
+tiktoken
+numpy==1.26.4
+xgboost==2.1.1
+shap==0.46.0
+openpyxl==3.1.5
+ollama==0.4.1

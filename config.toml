@@ -1,0 +1,3 @@
+[server]
+maxMessageSize = 500  # Increase the limit to 500MB 
+showPyplotGlobalUse = false

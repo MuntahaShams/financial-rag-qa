@@ -1,0 +1,42 @@
+Process Completed
+usage: daily_process.py [-h] [--summary] [--financial] [--sentiment]
+daily_process.py: error: unrecognized arguments: False True True
+Error: 'financial' and 'sentiment' cannot be True if 'summary' is False.
+Process Completed
+Successfully updated process date for document_id 3263
+summary has been generated successfully
+Financial Metrics has been generated successfully
+Sentiment scores has been generated successfully
+Successfully updated summary with document_id 3263
+Successfully updated document embeddings with document_id 3263
+Successfully updated summary embeddings with document_id 3263 and summary_id 1987
+Autogeneration done for uploads/ADSK_2024_Q2.txt
+Successfully updated process date for document_id 3253
+summary has been generated successfully
+Financial Metrics has been generated successfully
+Sentiment scores has been generated successfully
+Successfully updated summary with document_id 3253
+Successfully updated document embeddings with document_id 3253
+Successfully updated summary embeddings with document_id 3253 and summary_id 1988
+Autogeneration done for uploads/VEEV_2024_Q2.txt
+Successfully updated process date for document_id 3225
+summary has been generated successfully
+Financial Metrics has been generated successfully
+Sentiment scores has been generated successfully
+Successfully updated summary with document_id 3225
+Successfully updated document embeddings with document_id 3225
+Successfully updated summary embeddings with document_id 3225 and summary_id 1989
+Autogeneration done for uploads/MSFT_2023_Q2.txt
+Process Completed
+usage: daily_process.py [-h] [--summary SUMMARY] [--financial FINANCIAL]
+                        [--sentiment SENTIMENT]
+daily_process.py: error: argument --financial: expected one argument
+Error: 'financial' and 'sentiment' cannot be True if 'summary' is False.
+Successfully updated process date for document_id 3264
+summary has been generated successfully
+Financial Metrics has been generated successfully
+Successfully updated summary with document_id 3264
+Successfully updated document embeddings with document_id 3264
+Successfully updated summary embeddings with document_id 3264 and summary_id 1990
+Autogeneration done for uploads/ADSK_2024_Q2.txt
+Process Completed
