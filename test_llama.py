@@ -6,7 +6,7 @@ import re
 import json
 import pandas as pd
 
-client = OpenAI(api_key = "sk-proj-H64xAn1VXxepIm6wxu70T3BlbkFJ2qWTMfLfNjWR1mhPEa0S")
+client = OpenAI(api_key = "")
 
 import subprocess
 
